@@ -1,0 +1,19 @@
+# Dependencies & Build artifacts
+node_modules/
+dist/
+build/
+*.log
+
+# Sensitive environment variables and secrets
+.env
+.env.*
+*.local
+*.pem
+*.key
+
+# OS / Editor artifacts
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
