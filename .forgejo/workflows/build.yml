@@ -1,0 +1,26 @@
+# Wtyczka nie buduje się sama -- sprawdzamy ją tak, jak się jej używa: jako
+# userplugin w świeżym drzewie Vencorda (pnpm build kompiluje i bundluje).
+name: build
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: plugin
+      - name: Vencord + wtyczka jako userplugin
+        run: |
+          git clone --depth 1 https://github.com/Vendicated/Vencord.git vencord
+          mkdir -p vencord/src/userplugins/av1Fix
+          cp plugin/index.tsx vencord/src/userplugins/av1Fix/index.tsx
+      - name: pnpm install + build
+        working-directory: vencord
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+          pnpm build
